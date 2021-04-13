@@ -30,3 +30,6 @@ A python telegram bot that scrapes wods from crossfit websites and sends them in
 
 ### TyperaceBot
 A python bot that helps you type really fast but not so fast that you need to fill a captcha.
+
+### Vue-basics
+A Vue3 project to test the basics of the project
