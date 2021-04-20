@@ -1,6 +1,8 @@
 <template>
   <h1>{{ title }}</h1>
-  <Modal />
+  <div v-if="showmodal">
+    <Modal :header="header" :text="text" :theme="theme" />
+  </div>
 </template>
 
 <script>
@@ -14,6 +16,10 @@ export default {
   data() {
     return {
       title: "My first Vue app",
+      header: "This is a prop",
+      text: "This is another prop",
+      theme: "sale",
+      showmodal: false,
     };
   },
 };
