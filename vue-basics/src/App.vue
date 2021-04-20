@@ -1,8 +1,15 @@
 <template>
   <h1>{{ title }}</h1>
+  <p>Welcome</p>
   <div v-if="showmodal">
-    <Modal :header="header" :text="text" :theme="theme" />
+    <Modal
+      :header="header"
+      :text="text"
+      :theme="theme"
+      @close="toggleModal()"
+    />
   </div>
+  <button @click="toggleModal">Open modal</button>
 </template>
 
 <script>
@@ -21,6 +28,11 @@ export default {
       theme: "sale",
       showmodal: false,
     };
+  },
+  methods: {
+    toggleModal() {
+      this.showmodal = !this.showmodal;
+    },
   },
 };
 </script>
