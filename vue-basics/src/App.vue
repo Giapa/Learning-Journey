@@ -2,12 +2,14 @@
   <h1>{{ title }}</h1>
   <p>Welcome</p>
   <div v-if="showmodal">
-    <Modal
-      :header="header"
-      :text="text"
-      :theme="theme"
-      @close="toggleModal()"
-    />
+    <Modal :theme="theme" @close="toggleModal()">
+      <template v-slot:links>
+        <a href="#">sign up now</a>
+        <a href="#">more info</a>
+      </template>
+      <h1>{{ header }}</h1>
+      <p>{{ text }}</p>
+    </Modal>
   </div>
   <button @click.alt="toggleModal">Open modal(alt)</button>
 </template>
