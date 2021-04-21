@@ -2,7 +2,7 @@
   <h1>{{ title }}</h1>
   <p>Welcome</p>
   <div v-if="showmodal">
-    <Modal :theme="theme" @close="toggleModal()">
+    <Modal :theme="theme" @close="toggleModal">
       <template v-slot:links>
         <a href="#">sign up now</a>
         <a href="#">more info</a>
@@ -11,7 +11,16 @@
       <p>{{ text }}</p>
     </Modal>
   </div>
+  <div v-if="showmodaltwo">
+    <Modal theme="none" @close="toggleModalTwo">
+      <template v-slot:links>
+        <a href="#">sign up now</a>
+        <a href="#">more info</a>
+      </template>
+    </Modal>
+  </div>
   <button @click.alt="toggleModal">Open modal(alt)</button>
+  <button @click="toggleModalTwo">Open second modal</button>
 </template>
 
 <script>
@@ -29,11 +38,15 @@ export default {
       text: "This is another prop",
       theme: "sale",
       showmodal: false,
+      showmodaltwo: false,
     };
   },
   methods: {
     toggleModal() {
       this.showmodal = !this.showmodal;
+    },
+    toggleModalTwo() {
+      this.showmodaltwo = !this.showmodaltwo;
     },
   },
 };
