@@ -20,11 +20,13 @@
       <p>{{ lname }}</p>
     </div>
     <input type="text" v-model="search" />
+    <button @click="stopWatchers">Click to stop watch</button>
   </div>
 </template>
 
 <script>
 import { ref, reactive, computed } from "@vue/reactivity";
+import { watch, watchEffect } from "@vue/runtime-core";
 export default {
   name: "Home",
   setup() {
@@ -34,6 +36,19 @@ export default {
 
     const names = ref(["mario", "luigi", "yoshi", "browser", "toad"]);
     const search = ref("");
+
+    const stopWatch = watch(search, () => {
+      console.log("Watch run");
+    });
+
+    const stopEffect = watchEffect(() => {
+      console.log("WatchEffect function ran", search.value);
+    });
+
+    const stopWatchers = () => {
+      stopWatch();
+      stopEffect();
+    };
 
     const name = ref("Mario");
     const age = ref(30);
@@ -64,6 +79,7 @@ export default {
       computedname,
       search,
       matchinaNames,
+      stopWatchers,
     };
   },
 };
