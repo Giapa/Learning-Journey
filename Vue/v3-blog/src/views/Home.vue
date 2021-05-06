@@ -12,19 +12,33 @@
     <p>{{ reactivename.name }}</p>
     <p>{{ reactivename.age }}</p>
     <button @click="updateReactive">Click here to change hero</button>
+    <br />
+    <h2>Computed values</h2>
+    <p>{{ computedname }}</p>
+    <h2>Ref list</h2>
+    <div v-for="lname in matchinaNames" :key="lname">
+      <p>{{ lname }}</p>
+    </div>
+    <input type="text" v-model="search" />
   </div>
 </template>
 
 <script>
-import { ref, reactive } from "@vue/reactivity";
+import { ref, reactive, computed } from "@vue/reactivity";
 export default {
   name: "Home",
   setup() {
-    console.log("Setup");
+    const computedname = computed(() => {
+      return "Shaun";
+    });
+
+    const names = ref(["mario", "luigi", "yoshi", "browser", "toad"]);
+    const search = ref("");
 
     const name = ref("Mario");
     const age = ref(30);
 
+    // Reactive cannot use primative values.
     const reactivename = reactive({ name: "Peach", age: 25 });
 
     const handleClick = () => {
@@ -37,7 +51,20 @@ export default {
       reactivename.age = "27";
     };
 
-    return { name, age, handleClick, reactivename, updateReactive };
+    const matchinaNames = computed(() => {
+      return names.value.filter((name) => name.includes(search.value));
+    });
+
+    return {
+      name,
+      age,
+      handleClick,
+      reactivename,
+      updateReactive,
+      computedname,
+      search,
+      matchinaNames,
+    };
   },
 };
 </script>
