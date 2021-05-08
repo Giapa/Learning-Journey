@@ -1,35 +1,46 @@
 <template>
   <div class="home">
     <h1>Home</h1>
-    <PostList v-if="showPosts" :posts="posts" />
-    <button @click="showPosts = !showPosts">Toggle posts</button>
+    <div v-if="error">{{ error }}</div>
+    <div v-if="posts.length">
+      <PostList :posts="posts" />
+    </div>
+    <div v-else>
+      Loading...
+    </div>
   </div>
 </template>
 
 <script>
 import PostList from "../components/PostList.vue";
 import { ref } from "@vue/reactivity";
+import { onMounted } from "@vue/runtime-core";
 
 export default {
   name: "Home",
   components: { PostList },
   setup() {
-    const posts = ref([
-      {
-        title: "Welcome to the blog",
-        body:
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias aut, repellat ipsum facere voluptate dicta obcaecati deserunt nobis suscipit eaque?",
-        id: 1,
-      },
-      {
-        title: "top 5 css tips",
-        body:
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias aut, repellat ipsum facere voluptate dicta obcaecati deserunt nobis suscipit eaque?",
-        id: 2,
-      },
-    ]);
-    const showPosts = ref(true);
-    return { posts, showPosts };
+    const posts = ref([]);
+    const error = ref(null);
+
+    const load = async () => {
+      try {
+        let data = await fetch("http://localhost:3000/posts");
+        if (!data.ok) {
+          throw Error("No data available");
+        }
+        posts.value = await data.json();
+      } catch (err) {
+        error.value = err.message;
+        console.log(error.value);
+      }
+    };
+
+    onMounted(() => {
+      load();
+    });
+
+    return { posts, error };
   },
 };
 </script>
