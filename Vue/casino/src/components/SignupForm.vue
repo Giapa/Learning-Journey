@@ -54,9 +54,9 @@
           mx-auto
           w-full
         "
-        @click="login"
+        @click="register"
       >
-        Login
+        Signup
       </button>
     </form>
   </div>
@@ -64,6 +64,7 @@
 
 <script>
 import firebase from "firebase";
+
 export default {
   data() {
     return {
@@ -72,13 +73,13 @@ export default {
     };
   },
   methods: {
-    login(e) {
+    register(e) {
       firebase
         .auth()
-        .signInWithEmailAndPassword(this.email, this.password)
+        .createUserWithEmailAndPassword(this.email, this.password)
         .then(
           (result) => {
-            alert(`You are logged in as ${result.user.email}`);
+            alert(`account created for ${result.user.email}`);
             this.$router.push("/");
           },
           (err) => alert(err.message)

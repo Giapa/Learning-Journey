@@ -1,12 +1,12 @@
 <template>
-  <login-form></login-form>
+  <login-modal />
 </template>
 
 <script>
-import LoginForm from "../components/LoginForm.vue";
+import LoginModal from "../components/LoginModal.vue";
 export default {
   name: "Login",
-  components: { LoginForm },
+  components: { LoginModal },
 };
 </script>
 

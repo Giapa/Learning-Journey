@@ -10,7 +10,7 @@
         tracking-tight
         text-gray-900
         mt-10
-        mb-8
+        mb-5
         sm:mt-14 sm:mb-10
         inline-flex
         items-center
@@ -37,8 +37,8 @@
         text-lg
         sm:text-2xl sm:leading-10
         font-medium
-        mb-10
-        sm:mb-11
+        mb-5
+        sm:mb-5
         text-center
       "
     >
@@ -73,6 +73,18 @@
       More than 100.000.000 people have lost their entire property. Don't miss
       out on the feeling.
     </h1>
+    <p
+      class="
+        text-lg
+        sm:text-2xl sm:leading-10
+        font-medium
+        mb-2
+        sm:mb-2
+        text-center
+      "
+    >
+      Our users say:
+    </p>
     <div class="justify-center items-stretch flex space-x-20">
       <user-card v-for="user in users" :key="user.name">
         <template v-slot:name>{{ user.name }}</template>

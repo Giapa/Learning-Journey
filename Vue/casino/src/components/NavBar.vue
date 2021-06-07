@@ -32,15 +32,33 @@
               text-base text-gray-700
               pt-4
               lg:pt-0
+              cursor-pointer
             "
           >
             <nav-item
-              v-for="item in menuItems"
+              v-for="item in filteredMenuItems"
               :key="item.name"
               :url="item.url"
             >
               {{ item.name }}
             </nav-item>
+            <li>
+              <a
+                class="
+                  lg:p-4
+                  py-1
+                  px-0
+                  block
+                  border-b-2 border-transparent
+                  hover:border-black
+                  text-lg
+                "
+                v-if="isLoggedIn"
+                @click="logout"
+              >
+                Logout
+              </a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -50,19 +68,45 @@
 
 <script>
 import NavItem from "./NavItem.vue";
+import firebase from "firebase";
 
 export default {
   components: { NavItem },
   data() {
     return {
+      isLoggedIn: false,
+      currentUser: false,
       menuItems: [
         { name: "Home", url: "/" },
         { name: "Live Draw", url: "/draw" },
         { name: "Login", url: "/login" },
         { name: "Register", url: "/register" },
       ],
-      // ["Home", "Live Draw", "Login", "Register"],
     };
+  },
+  created() {
+    if (firebase.auth().currentUser) {
+      this.isLoggedIn = true;
+      this.currentUser = firebase.auth().currentUser.email;
+    }
+  },
+  methods: {
+    logout() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.push("/").catch(() => {});
+        });
+    },
+  },
+  computed: {
+    filteredMenuItems() {
+      if (this.isLoggedIn) {
+        return this.menuItems.slice(0, 2);
+      }
+      return this.menuItems;
+    },
   },
 };
 </script>
