@@ -70,13 +70,16 @@
       >Start losing</a
     >
     <h1 class="my-10">
-      More than 100.000.000 have lost their entire property. Don't miss out on
-      the feeling.
+      More than 100.000.000 people have lost their entire property. Don't miss
+      out on the feeling.
     </h1>
-    <user-card>
-      <template v-slot:name> Gregory Giapa </template>
-      I lost everything to my gabling addiction
-    </user-card>
+    <div class="justify-center items-stretch flex space-x-20">
+      <user-card v-for="user in users" :key="user.name">
+        <template v-slot:name>{{ user.name }}</template>
+        <q> {{ user.testimony }} </q>
+        <template v-slot:price>{{ user.lost }} &#36;</template>
+      </user-card>
+    </div>
   </div>
 </template>
 
@@ -85,5 +88,27 @@ import UserCard from "../components/UserCard.vue";
 export default {
   name: "Home",
   components: { UserCard },
+  data() {
+    return {
+      users: [
+        {
+          name: "Gregory Giapa",
+          testimony: "I lost everything to my gabling addiction.",
+          lost: "40000",
+        },
+        {
+          name: "Linus TechTips",
+          testimony:
+            "The tips they gave me weren't enought to keep my wife from leaving me.",
+          lost: "500204",
+        },
+        {
+          name: "Richard Stallman",
+          testimony: "I lost all the GNU money to this propriatary web app.",
+          lost: "100223421",
+        },
+      ],
+    };
+  },
 };
 </script>

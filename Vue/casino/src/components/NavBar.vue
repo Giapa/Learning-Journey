@@ -1,5 +1,5 @@
 <template>
-  <div class="antialias">
+  <div class="">
     <header
       class="
         lg:px-16
@@ -11,9 +11,6 @@
         mx-8
         my-2
         rounded-lg
-        bg-green-200 bg-gradient-to-br
-        from-green-200
-        to-green-300
       "
     >
       <div class="flex-1 flex justify-between items-center">
@@ -37,8 +34,12 @@
               lg:pt-0
             "
           >
-            <nav-item v-for="item in menuItems" :key="item">
-              {{ item }}
+            <nav-item
+              v-for="item in menuItems"
+              :key="item.name"
+              :url="item.url"
+            >
+              {{ item.name }}
             </nav-item>
           </ul>
         </nav>
@@ -54,7 +55,13 @@ export default {
   components: { NavItem },
   data() {
     return {
-      menuItems: ["Home", "Draw", "Login", "Register"],
+      menuItems: [
+        { name: "Home", url: "/" },
+        { name: "Live Draw", url: "/draw" },
+        { name: "Login", url: "/login" },
+        { name: "Register", url: "/register" },
+      ],
+      // ["Home", "Live Draw", "Login", "Register"],
     };
   },
 };
