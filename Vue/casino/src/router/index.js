@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
+import DrawTab from "../views/DrawTab.vue";
 import Draw from "../views/Draw.vue";
 import firebase from "firebase";
 
@@ -26,6 +27,12 @@ const routes = [
   },
   {
     path: "/draw",
+    name: "DrawTab",
+    component: DrawTab,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/game",
     name: "Draw",
     component: Draw,
     meta: { requiresAuth: true },

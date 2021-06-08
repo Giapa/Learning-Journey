@@ -69,10 +69,13 @@
           duration-200
           cursor-pointer
         "
-        @click="play = true"
+        @click="saveNumbers"
         >Submit numbers</a
       >
     </div>
+    <error-modal v-on:close-modal="error = false" v-if="error"
+      >You can only choose between 1-30. Invalid inputs.</error-modal
+    >
     <h1 class="my-10">
       More than 100.000.000 people have lost their entire property. Don't miss
       out on the feeling.
@@ -104,16 +107,20 @@ import UserCard from "../components/UserCard.vue";
 import firebase from "firebase";
 import Logo from "../components/Logo.vue";
 import NumberInput from "../components/NumberInput.vue";
+import ErrorModal from "../components/ErrorModal.vue";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Home",
-  components: { UserCard, Logo, NumberInput },
+  components: { UserCard, Logo, NumberInput, ErrorModal },
   data() {
     return {
       users: [],
+      placeholder: "",
       isLoggedIn: false,
-      play: false,
       numbers: [],
+      play: false,
+      error: false,
     };
   },
   mounted() {
@@ -128,15 +135,15 @@ export default {
   created() {
     if (firebase.auth().currentUser) {
       this.isLoggedIn = true;
+      this.play = true;
     }
   },
   methods: {
+    ...mapActions(["addNumbers"]),
     checkValue(val) {
-      console.log(val);
       const value = parseInt(val.value);
       const id = val.id;
       if (value <= 30 && value >= 1) {
-        console.log(value);
         if (this.numberExists(id)) {
           const index = this.numbers.findIndex((num) => num.id == id);
           this.numbers[index].value = value;
@@ -150,6 +157,21 @@ export default {
         return num.id === id;
       });
     },
+    saveNumbers() {
+      if (this.numbers.length == 5) {
+        this.addNumbers(
+          this.numbers.map((item) => {
+            return item.value;
+          })
+        );
+        this.$router.push({ name: "Draw" });
+      } else {
+        this.error = true;
+      }
+    },
+  },
+  computed: {
+    ...mapGetters(["getNumbers"]),
   },
 };
 </script>
