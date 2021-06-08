@@ -2,14 +2,7 @@
   <input
     type="text"
     ref="input"
-    class="
-      rounded
-      border-solid border-2 border-black
-      w-12
-      h-12
-      focus:outline-none focus:ring
-      text-center
-    "
+    class="rounded border-solid border-2 border-black w-12 h-12 text-center"
     @blur="numberCheck"
     maxlength="2"
   />

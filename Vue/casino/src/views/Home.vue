@@ -46,6 +46,7 @@
         :key="index"
         v-on:number-check="checkValue"
         :id="index"
+        class="focus:outline-none focus:ring"
       ></number-input>
       <a
         class="

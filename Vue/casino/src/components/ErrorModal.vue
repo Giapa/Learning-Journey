@@ -11,7 +11,6 @@
       bg-white
       rounded-md
       text-red-700
-      bg-red-100
       border border-red-300
     "
   >
