@@ -50,6 +50,21 @@
                   px-0
                   block
                   border-b-2 border-transparent
+                  text-lg
+                "
+                v-if="isLoggedIn"
+              >
+                {{ currentUser }}
+              </a>
+            </li>
+            <li>
+              <a
+                class="
+                  lg:p-4
+                  py-1
+                  px-0
+                  block
+                  border-b-2 border-transparent
                   hover:border-black
                   text-lg
                 "

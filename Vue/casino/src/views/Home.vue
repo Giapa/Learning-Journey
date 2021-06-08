@@ -1,37 +1,6 @@
 <template>
   <div>
-    <h1
-      class="
-        text-4xl
-        sm:text-6xl
-        lg:text-7xl
-        leading-none
-        font-extrabold
-        tracking-tight
-        text-gray-900
-        mt-10
-        mb-5
-        sm:mt-14 sm:mb-10
-        inline-flex
-        items-center
-      "
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-12 w-20 inline-block"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-      </svg>
-      Money Loss.
-    </h1>
+    <logo class="text-black"></logo>
     <p
       class="
         text-lg
@@ -42,9 +11,10 @@
         text-center
       "
     >
-      Your pain is our gain. Play to lose.
+      Click the button and pick 5 number to start losing.
     </p>
     <a
+      v-show="!play"
       class="
         w-full
         sm:w-auto
@@ -65,10 +35,44 @@
         focus:outline-none
         transition-colors
         duration-200
+        cursor-pointer
       "
-      href=""
-      >Start losing</a
+      @click="play = true"
+      >Click to choose 5 numbers</a
     >
+    <div class="flex items-center justify-center gap-1" v-show="play">
+      <number-input
+        v-for="index in 5"
+        :key="index"
+        v-on:number-check="checkValue"
+        :id="index"
+      ></number-input>
+      <a
+        class="
+          sm:w-auto
+          flex-none
+          bg-gray-900
+          hover:bg-gray-700
+          text-white text-lg
+          leading-6
+          font-semibold
+          py-3
+          px-6
+          border border-transparent
+          rounded-xl
+          focus:ring-2
+          focus:ring-offset-2
+          focus:ring-offset-white
+          focus:ring-gray-900
+          focus:outline-none
+          transition-colors
+          duration-200
+          cursor-pointer
+        "
+        @click="play = true"
+        >Submit numbers</a
+      >
+    </div>
     <h1 class="my-10">
       More than 100.000.000 people have lost their entire property. Don't miss
       out on the feeling.
@@ -97,30 +101,55 @@
 
 <script>
 import UserCard from "../components/UserCard.vue";
+import firebase from "firebase";
+import Logo from "../components/Logo.vue";
+import NumberInput from "../components/NumberInput.vue";
+
 export default {
   name: "Home",
-  components: { UserCard },
+  components: { UserCard, Logo, NumberInput },
   data() {
     return {
-      users: [
-        {
-          name: "Gregory Giapa",
-          testimony: "I lost everything to my gabling addiction.",
-          lost: "40000",
-        },
-        {
-          name: "Linus TechTips",
-          testimony:
-            "The tips they gave me weren't enought to keep my wife from leaving me.",
-          lost: "500204",
-        },
-        {
-          name: "Richard Stallman",
-          testimony: "I lost all the GNU money to this propriatary web app.",
-          lost: "100223421",
-        },
-      ],
+      users: [],
+      isLoggedIn: false,
+      play: false,
+      numbers: [],
     };
+  },
+  mounted() {
+    firebase
+      .firestore()
+      .collection("testimony")
+      .get()
+      .then((querySnapshot) => {
+        this.users = querySnapshot.docs.map((doc) => doc.data());
+      });
+  },
+  created() {
+    if (firebase.auth().currentUser) {
+      this.isLoggedIn = true;
+    }
+  },
+  methods: {
+    checkValue(val) {
+      console.log(val);
+      const value = parseInt(val.value);
+      const id = val.id;
+      if (value <= 30 && value >= 1) {
+        console.log(value);
+        if (this.numberExists(id)) {
+          const index = this.numbers.findIndex((num) => num.id == id);
+          this.numbers[index].value = value;
+        } else {
+          this.numbers.push({ id: id, value: value });
+        }
+      }
+    },
+    numberExists(id) {
+      return this.numbers.some((num) => {
+        return num.id === id;
+      });
+    },
   },
 };
 </script>

@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
+import Draw from "../views/Draw.vue";
 import firebase from "firebase";
 
 Vue.use(VueRouter);
@@ -23,7 +24,12 @@ const routes = [
     name: "Register",
     component: Register,
   },
-  { path: "/draw", name: "Draw", meta: { requiresAuth: true } },
+  {
+    path: "/draw",
+    name: "Draw",
+    component: Draw,
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = new VueRouter({

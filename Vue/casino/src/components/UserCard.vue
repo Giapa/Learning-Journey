@@ -10,7 +10,7 @@
     "
   >
     <img
-      class="flex rounded-full p-2"
+      class="flex rounded-full mt-1 mx-5"
       src="https://www.fillmurray.com/640/360"
       alt="Sunset in the mountains"
     />
