@@ -37,7 +37,7 @@
         duration-200
         cursor-pointer
       "
-      @click="play = true"
+      @click="beginGame"
       >Click to choose 5 numbers</a
     >
     <div class="flex items-center justify-center gap-1" v-show="play">
@@ -75,7 +75,8 @@
       >
     </div>
     <error-modal v-on:close-modal="error = false" v-if="error"
-      >You can only choose between 1-30. Invalid inputs.</error-modal
+      >You can only choose between 1-30. The numbers must be unique. Invalid
+      inputs.</error-modal
     >
     <h1 class="my-10">
       More than 100.000.000 people have lost their entire property. Don't miss
@@ -144,7 +145,7 @@ export default {
     checkValue(val) {
       const value = parseInt(val.value);
       const id = val.id;
-      if (value <= 30 && value >= 1) {
+      if (value <= 30 && value >= 1 && !this.numbers.includes(value)) {
         if (this.numberExists(id)) {
           const index = this.numbers.findIndex((num) => num.id == id);
           this.numbers[index].value = value;
@@ -159,7 +160,7 @@ export default {
       });
     },
     saveNumbers() {
-      if (this.numbers.length == 5) {
+      if (this.validateInputNumbers()) {
         this.addNumbers(
           this.numbers.map((item) => {
             return item.value;
@@ -168,6 +169,25 @@ export default {
         this.$router.push({ name: "Draw" });
       } else {
         this.error = true;
+      }
+    },
+    validateInputNumbers() {
+      if (
+        this.numbers.length != 5 ||
+        new Set(this.numbers).size !== this.numbers.length ||
+        this.numbers.every((element) => {
+          return typeof element !== "number";
+        })
+      ) {
+        return false;
+      }
+      return true;
+    },
+    beginGame() {
+      if (firebase.auth().currentUser) {
+        this.play = true;
+      } else {
+        this.$router.push("/login");
       }
     },
   },

@@ -19,7 +19,7 @@ const mutations = {
   setNumbers: (state, numbers) => {
     state.numbers = numbers;
   },
-  deleteNumbers: (state) => {
+  removeNumbers: (state) => {
     state.numbers = [];
   },
 };

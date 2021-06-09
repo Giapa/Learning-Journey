@@ -10,7 +10,11 @@
 
 <script>
 export default {
-  props: ["id"],
+  props: {
+    id: {
+      required: false,
+    },
+  },
   methods: {
     numberCheck() {
       this.$emit("number-check", {

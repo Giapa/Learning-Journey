@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div :class="this.getNumbers.length > 0 ? 'pointer-events-none' : ''">
     <header
       class="
         lg:px-16
@@ -84,7 +84,7 @@
 <script>
 import NavItem from "./NavItem.vue";
 import firebase from "firebase";
-
+import { mapGetters } from "vuex";
 export default {
   components: { NavItem },
   data() {
@@ -116,6 +116,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(["getNumbers"]),
     filteredMenuItems() {
       if (this.isLoggedIn) {
         return this.menuItems.slice(0, 2);
