@@ -4,6 +4,11 @@ const state = {
 
 const getters = {
   getNumbers: (state) => state.numbers,
+  getSpecificNumber: (state) => (number) => {
+    return state.numbers.filter((item) => {
+      return item === number;
+    });
+  },
 };
 
 const actions = {

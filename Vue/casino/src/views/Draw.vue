@@ -1,14 +1,9 @@
 <template>
-  <div v-if="loading">
+  <div v-if="!finished">
     <card-display :dimensions="['w-48', 'h-48']" :loop="5"
       >The unlucky numbers are:</card-display
     >
-    <beat-loader
-      loading="loading"
-      color="black"
-      class="my-10"
-      v-if="loading"
-    ></beat-loader>
+    <beat-loader loading="loading" color="black" class="my-10"></beat-loader>
     <card-display
       :dimensions="['w-36', 'h-36']"
       :loop="getNumbers"
@@ -16,34 +11,92 @@
       >Your numbers</card-display
     >
   </div>
-  <div v-else>You lost. What did you expect?</div>
+  <div v-else-if="finished">
+    <result-modal
+      :winnings="this.winningNumbers"
+      v-on:save-history="saveGame"
+    ></result-modal>
+  </div>
+  <div v-else>
+    <p
+      class="
+        text-lg
+        sm:text-2xl sm:leading-10
+        font-medium
+        mt-20
+        sm:mt-20
+        text-center
+      "
+    >
+      You must play from the Home page. Go back.
+    </p>
+  </div>
 </template>
 
 <script>
 import CardDisplay from "../components/CardDisplay.vue";
 import BeatLoader from "vue-spinner/src/BeatLoader.vue";
+import ResultModal from "../components/ResultModal.vue";
+import firebase from "firebase";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  components: { CardDisplay, BeatLoader },
+  components: { CardDisplay, BeatLoader, ResultModal },
   data() {
     return {
-      loading: true,
       randomNumbers: [],
+      winningNumbers: [],
+      finished: false,
     };
   },
   methods: {
     ...mapActions(["deleteNumbers"]),
+    saveGame(price) {
+      var user = firebase.auth().currentUser.email;
+      firebase
+        .firestore()
+        .collection("history")
+        .add({
+          amount: price,
+          draws: this.randomNumbers,
+          status: price > 0 ? true : false,
+          user: user,
+          date: firebase.firestore.Timestamp.fromDate(new Date()),
+          playedNumbers: this.getNumbers,
+          winningNumbers: this.winningNumbers,
+        })
+        .then(alert("Game was saved to history."), this.$router.push("/"))
+        .catch((error) => console.log(error));
+    },
+    checkNumber(number) {
+      if (this.getSpecificNumber(number).length >= 1) {
+        this.winningNumbers.push(number);
+        return true;
+      }
+      return false;
+    },
     async getUnluckuNumbers(inputs, timer) {
       for (const input of inputs) {
         await timer(4000);
-        var randomNumber = Math.floor(Math.random() * 30) + 1;
+        var randomNumber = this.generateRandom();
         this.randomNumbers.push(randomNumber);
         input.placeholder = randomNumber;
+        if (this.checkNumber(randomNumber)) {
+          input.classList.add("border-green-600");
+        } else {
+          input.classList.add("border-red-600");
+        }
+        input.classList.add("border-4");
       }
-      this.loading = false;
-      this.deleteNumbers();
-      console.log(this.randomNumbers);
+      await timer(3000);
+      this.finished = true;
+    },
+    generateRandom() {
+      var randomNumber;
+      do {
+        randomNumber = Math.floor(Math.random() * 6) + 1;
+      } while (this.randomNumbers.includes(randomNumber));
+      return randomNumber;
     },
   },
   mounted() {
@@ -56,10 +109,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getNumbers"]),
+    ...mapGetters(["getNumbers", "getSpecificNumber"]),
   },
   destroyed() {
     this.deleteNumbers();
+    this.finished = false;
   },
 };
 </script>

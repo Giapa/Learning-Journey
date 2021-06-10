@@ -13,32 +13,8 @@
     >
       Click the button and pick 5 number to start losing.
     </p>
-    <a
-      v-show="!play"
-      class="
-        w-full
-        sm:w-auto
-        flex-none
-        bg-gray-900
-        hover:bg-gray-700
-        text-white text-lg
-        leading-6
-        font-semibold
-        py-3
-        px-6
-        border border-transparent
-        rounded-xl
-        focus:ring-2
-        focus:ring-offset-2
-        focus:ring-offset-white
-        focus:ring-gray-900
-        focus:outline-none
-        transition-colors
-        duration-200
-        cursor-pointer
-      "
-      @click="beginGame"
-      >Click to choose 5 numbers</a
+    <black-button v-show="!play" class="w-full" @click.native="beginGame"
+      >Click to choose 5 numbers</black-button
     >
     <div class="flex items-center justify-center gap-1" v-show="play">
       <number-input
@@ -48,31 +24,7 @@
         :id="index"
         class="focus:outline-none focus:ring"
       ></number-input>
-      <a
-        class="
-          sm:w-auto
-          flex-none
-          bg-gray-900
-          hover:bg-gray-700
-          text-white text-lg
-          leading-6
-          font-semibold
-          py-3
-          px-6
-          border border-transparent
-          rounded-xl
-          focus:ring-2
-          focus:ring-offset-2
-          focus:ring-offset-white
-          focus:ring-gray-900
-          focus:outline-none
-          transition-colors
-          duration-200
-          cursor-pointer
-        "
-        @click="saveNumbers"
-        >Submit numbers</a
-      >
+      <black-button @click.native="saveNumbers">Submit numbers</black-button>
     </div>
     <error-modal v-on:close-modal="error = false" v-if="error"
       >You can only choose between 1-30. The numbers must be unique. Invalid
@@ -110,11 +62,12 @@ import firebase from "firebase";
 import Logo from "../components/Logo.vue";
 import NumberInput from "../components/NumberInput.vue";
 import ErrorModal from "../components/ErrorModal.vue";
+import BlackButton from "../components/BlackButton.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Home",
-  components: { UserCard, Logo, NumberInput, ErrorModal },
+  components: { UserCard, Logo, NumberInput, ErrorModal, BlackButton },
   data() {
     return {
       users: [],
@@ -145,7 +98,11 @@ export default {
     checkValue(val) {
       const value = parseInt(val.value);
       const id = val.id;
-      if (value <= 30 && value >= 1 && !this.numbers.includes(value)) {
+      if (
+        value <= 30 &&
+        value >= 1 &&
+        !this.numbers.some((num) => num.value === value)
+      ) {
         if (this.numberExists(id)) {
           const index = this.numbers.findIndex((num) => num.id == id);
           this.numbers[index].value = value;
@@ -160,7 +117,7 @@ export default {
       });
     },
     saveNumbers() {
-      if (this.validateInputNumbers()) {
+      if (this.numbers.length == 5) {
         this.addNumbers(
           this.numbers.map((item) => {
             return item.value;
@@ -173,10 +130,9 @@ export default {
     },
     validateInputNumbers() {
       if (
-        this.numbers.length != 5 ||
         new Set(this.numbers).size !== this.numbers.length ||
-        this.numbers.every((element) => {
-          return typeof element !== "number";
+        !this.numbers.every((element) => {
+          return typeof element === "number";
         })
       ) {
         return false;

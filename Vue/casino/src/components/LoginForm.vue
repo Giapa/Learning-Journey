@@ -41,30 +41,19 @@
           focus:border-transparent
         "
       />
-      <button
-        class="
-          bg-blue
-          text-white
-          font-bold
-          py-2
-          px-4
-          rounded
-          border
-          block
-          mx-auto
-          w-full
-        "
-        @click="login"
-      >
+      <black-button class="block w-full" @click.native="login">
         Login
-      </button>
+      </black-button>
     </form>
   </div>
 </template>
 
 <script>
 import firebase from "firebase";
+import BlackButton from "./BlackButton.vue";
+
 export default {
+  components: { BlackButton },
   data() {
     return {
       email: "",
