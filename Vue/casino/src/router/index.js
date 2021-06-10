@@ -5,6 +5,7 @@ import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import DrawTab from "../views/DrawTab.vue";
 import Draw from "../views/Draw.vue";
+import History from "../views/History.vue";
 import firebase from "firebase";
 
 Vue.use(VueRouter);
@@ -29,6 +30,12 @@ const routes = [
     path: "/draw",
     name: "DrawTab",
     component: DrawTab,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/history",
+    name: "History",
+    component: History,
     meta: { requiresAuth: true },
   },
   {

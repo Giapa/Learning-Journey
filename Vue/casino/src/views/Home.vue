@@ -13,8 +13,8 @@
     >
       Click the button and pick 5 number to start losing.
     </p>
-    <black-button v-show="!play" class="w-full" @click.native="beginGame"
-      >Click to choose 5 numbers</black-button
+    <round-button v-show="!play" class="w-full" @click.native="beginGame"
+      >Click to choose 5 numbers</round-button
     >
     <div class="flex items-center justify-center gap-1" v-show="play">
       <number-input
@@ -24,7 +24,7 @@
         :id="index"
         class="focus:outline-none focus:ring"
       ></number-input>
-      <black-button @click.native="saveNumbers">Submit numbers</black-button>
+      <round-button @click.native="saveNumbers">Submit numbers</round-button>
     </div>
     <error-modal v-on:close-modal="error = false" v-if="error"
       >You can only choose between 1-30. The numbers must be unique. Invalid
@@ -62,12 +62,12 @@ import firebase from "firebase";
 import Logo from "../components/Logo.vue";
 import NumberInput from "../components/NumberInput.vue";
 import ErrorModal from "../components/ErrorModal.vue";
-import BlackButton from "../components/BlackButton.vue";
+import RoundButton from "../components/RoundButton.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Home",
-  components: { UserCard, Logo, NumberInput, ErrorModal, BlackButton },
+  components: { UserCard, Logo, NumberInput, ErrorModal, RoundButton },
   data() {
     return {
       users: [],

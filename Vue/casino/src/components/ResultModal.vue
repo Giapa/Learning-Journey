@@ -44,19 +44,19 @@
         time nerd.
       </p>
       <router-link to="/">
-        <black-button class="mr-5">Play again</black-button>
+        <round-button class="mr-5">Play again</round-button>
       </router-link>
-      <black-button @click.native="saveHistory">Save game</black-button>
+      <round-button @click.native="saveHistory">Save game</round-button>
     </div>
   </div>
 </template>
 
 <script>
 import Logo from "./Logo.vue";
-import BlackButton from "./BlackButton.vue";
+import RoundButton from "./RoundButton.vue";
 
 export default {
-  components: { Logo, BlackButton },
+  components: { Logo, RoundButton },
   props: ["winnings"],
   data() {
     return {

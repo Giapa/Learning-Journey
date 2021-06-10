@@ -42,6 +42,24 @@
             >
               {{ item.name }}
             </nav-item>
+            <router-link to="/history">
+              <li>
+                <a
+                  class="
+                    lg:p-4
+                    py-1
+                    px-0
+                    block
+                    border-b-2 border-transparent
+                    hover:border-black
+                    text-lg
+                  "
+                  v-if="isLoggedIn"
+                >
+                  History
+                </a>
+              </li>
+            </router-link>
             <li>
               <a
                 class="
@@ -94,6 +112,7 @@ export default {
       menuItems: [
         { name: "Home", url: "/" },
         { name: "Live Draw", url: "/draw" },
+        { name: "History", url: "/history" },
         { name: "Login", url: "/login" },
         { name: "Register", url: "/register" },
       ],

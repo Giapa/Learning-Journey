@@ -41,19 +41,19 @@
           focus:border-transparent
         "
       />
-      <black-button class="block w-full" @click.native="login">
+      <round-button class="block w-full" @click.native="login">
         Login
-      </black-button>
+      </round-button>
     </form>
   </div>
 </template>
 
 <script>
 import firebase from "firebase";
-import BlackButton from "./BlackButton.vue";
+import RoundButton from "./RoundButton.vue";
 
 export default {
-  components: { BlackButton },
+  components: { RoundButton },
   data() {
     return {
       email: "",
