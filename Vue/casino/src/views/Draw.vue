@@ -94,7 +94,7 @@ export default {
     generateRandom() {
       var randomNumber;
       do {
-        randomNumber = Math.floor(Math.random() * 6) + 1;
+        randomNumber = Math.floor(Math.random() * 30) + 1;
       } while (this.randomNumbers.includes(randomNumber));
       return randomNumber;
     },
