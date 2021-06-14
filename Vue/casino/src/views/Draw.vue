@@ -1,6 +1,6 @@
 <template>
   <div v-if="!finished">
-    <card-display :dimensions="['w-48', 'h-48']" :loop="5"
+    <card-display :dimensions="['w-48', 'h-48']" :loop="5" ref="draws"
       >The unlucky numbers are:</card-display
     >
     <beat-loader loading="loading" color="black" class="my-10"></beat-loader>
@@ -75,18 +75,23 @@ export default {
       }
       return false;
     },
-    async getUnluckuNumbers(inputs, timer) {
-      for (const input of inputs) {
+    async getUnluckuNumbers(timer) {
+      for (var i = 0; i < 5; i++) {
         await timer(4000);
         var randomNumber = this.generateRandom();
         this.randomNumbers.push(randomNumber);
-        input.placeholder = randomNumber;
+        const card = this.$refs.draws.$refs.card[i];
+        const input = card.$refs.input;
+        input.value = randomNumber;
         if (this.checkNumber(randomNumber)) {
-          input.classList.add("border-green-600");
+          card.$el.classList.value =
+            card.$el.classList.value + " border-green-600 ";
+          console.log("green", card.$el.classList);
         } else {
-          input.classList.add("border-red-600");
+          card.$el.classList.value =
+            card.$el.classList.value + " border-red-600 ";
         }
-        input.classList.add("border-4");
+        card.$el.classList.value = card.$el.classList.value + " border-4 ";
       }
       await timer(3000);
       this.finished = true;
@@ -103,8 +108,9 @@ export default {
     if (this.getNumbers.length > 0) {
       setTimeout(() => {
         const timer = (ms) => new Promise((res) => setTimeout(res, ms));
-        var inputs = [...document.getElementsByTagName("input")].splice(0, 5);
-        this.getUnluckuNumbers(inputs, timer);
+        // var inputs = [...document.getElementsByTagName("input")].splice(0, 5);
+
+        this.getUnluckuNumbers(timer);
       }, 3000);
     }
   },

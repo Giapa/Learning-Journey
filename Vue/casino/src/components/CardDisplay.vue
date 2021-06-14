@@ -26,6 +26,7 @@
           'text-4xl',
           'text-bold',
         ]"
+        ref="card"
       ></number-input>
     </div>
   </div>
