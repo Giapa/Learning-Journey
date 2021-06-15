@@ -1,12 +1,14 @@
 <template>
-  <login-modal />
+  <account-modal :action="this.$options.name"
+    >Login with your account and start losing NOW!</account-modal
+  >
 </template>
 
 <script>
-import LoginModal from "../components/LoginModal.vue";
+import AccountModal from "../components/AccountModal.vue";
 export default {
   name: "Login",
-  components: { LoginModal },
+  components: { AccountModal },
 };
 </script>
 

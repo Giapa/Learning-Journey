@@ -33,18 +33,19 @@
         >
           Welcome to Money Loss
         </h1>
-        <h5>Register a new account and start losing money NOW!</h5>
+        <h5><slot></slot></h5>
         <h5>Get addicted and let us gain.</h5>
       </div>
-      <signup-form></signup-form>
+      <account-form :action="action"></account-form>
     </div>
   </div>
 </template>
 
 <script>
-import SignupForm from "./SignupForm.vue";
+import AccountForm from "./AccountForm.vue";
 export default {
-  components: { SignupForm },
+  props: ["action"],
+  components: { AccountForm },
 };
 </script>
 

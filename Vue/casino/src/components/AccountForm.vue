@@ -41,8 +41,11 @@
           focus:border-transparent
         "
       />
-      <round-button class="block w-full" @click.native="register">
-        Signup
+      <round-button
+        class="block w-full"
+        @click.native="handleFunctionCall(action.toLowerCase())"
+      >
+        {{ this.action }}
       </round-button>
     </form>
   </div>
@@ -54,6 +57,7 @@ import RoundButton from "./RoundButton.vue";
 
 export default {
   components: { RoundButton },
+  props: ["action"],
   data() {
     return {
       email: "",
@@ -61,6 +65,23 @@ export default {
     };
   },
   methods: {
+    handleFunctionCall(functionName) {
+      console.log(functionName);
+      this[functionName](event);
+    },
+    login(e) {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.email, this.password)
+        .then(
+          (result) => {
+            alert(`You are logged in as ${result.user.email}`);
+            this.$router.push("/");
+          },
+          (err) => alert(err.message)
+        );
+      e.preventDefault();
+    },
     register(e) {
       firebase
         .auth()
