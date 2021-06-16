@@ -1,29 +1,32 @@
 <template>
-  <div
-    class="w-56 py-4 px-4 h-full relative bg-white shadow-lg rounded-lg my-auto mx-5"
-  >
-    <div @click="flipped = !flipped">
-      <transition name="flip">
-        <card-content v-if="!flipped">
+  <div>
+    <vue-flip active-click width="auto" height="auto">
+      <template v-slot:front>
+        <card-content
+          class="w-56 h-auto absolute bg-white shadow-lg rounded-lg my-auto mx-5"
+        >
           Front card
           <template slot="text"><slot name="front"></slot></template>
         </card-content>
-      </transition>
-      <transition name="flip-back">
-        <card-content v-if="flipped">
+      </template>
+      <template v-slot:back>
+        <card-content
+          class="w-56 h-auto absolute bg-white shadow-lg rounded-lg my-auto mx-5"
+        >
           Back card
           <template slot="text"><slot name="back"></slot></template>
         </card-content>
-      </transition>
-    </div>
+      </template>
+    </vue-flip>
   </div>
 </template>
 
 <script>
 import CardContent from "./CardContent.vue";
+import VueFlip from "vue-flip";
 
 export default {
-  components: { CardContent },
+  components: { CardContent, VueFlip },
   name: "FlipCard",
   data: function() {
     return {
@@ -33,25 +36,4 @@ export default {
 };
 </script>
 
-<style type="text/css" scoped>
-.flip-enter-active,
-.flip-back-enter-active {
-  transition: all 0.8s ease;
-}
-.flip-enter {
-  -webkit-transform: rotateY(90deg);
-  -moz-transform: rotateY(90deg);
-  -o-transform: rotateY(90deg);
-  -ms-transform: rotateY(90deg);
-  transform: rotateY(90deg);
-  opacity: 0;
-}
-.flip-back-enter {
-  -webkit-transform: rotateY(-90deg);
-  -moz-transform: rotateY(90deg);
-  -o-transform: rotateY(-90deg);
-  -ms-transform: rotateY(-90deg);
-  transform: rotateY(-90deg);
-  opacity: 0;
-}
-</style>
+<style type="text/css" scoped></style>
