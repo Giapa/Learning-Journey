@@ -1,34 +1,34 @@
 <template>
-  <div>
-    <vue-flip active-click width="auto" height="auto">
-      <template v-slot:front>
-        <card-content
-          class="w-56 h-auto absolute bg-white shadow-lg rounded-lg my-auto mx-5"
-        >
-          Front card
+  <div
+    class="flip-container"
+    :class="[flipped ? 'flip-container--clicked' : '']"
+    @click="flipped = !flipped"
+  >
+    <div class="flipper w-80 h-full my-auto mx-5">
+      <div class="front bg-white shadow-lg rounded-lg">
+        <card-content>
+          Front Card
           <template slot="text"><slot name="front"></slot></template>
         </card-content>
-      </template>
-      <template v-slot:back>
-        <card-content
-          class="w-56 h-auto absolute bg-white shadow-lg rounded-lg my-auto mx-5"
-        >
+      </div>
+      <div class="back bg-white shadow-lg rounded-lg">
+        <card-content>
           Back card
           <template slot="text"><slot name="back"></slot></template>
         </card-content>
-      </template>
-    </vue-flip>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import CardContent from "./CardContent.vue";
-import VueFlip from "vue-flip";
-
+import CardContent from "./CardContent";
 export default {
-  components: { CardContent, VueFlip },
-  name: "FlipCard",
-  data: function() {
+  name: "Card",
+  components: {
+    CardContent,
+  },
+  data() {
     return {
       flipped: false,
     };
@@ -36,4 +36,64 @@ export default {
 };
 </script>
 
-<style type="text/css" scoped></style>
+<style type="text/css" scoped>
+.flip-container {
+  -webkit-perspective: 1000;
+  -moz-perspective: 1000;
+  -o-perspective: 1000;
+  perspective: 1000;
+}
+.flip-container {
+  min-height: 120px;
+}
+.flipper {
+  -moz-transform: perspective(1000px);
+  -moz-transform-style: preserve-3d;
+  position: relative;
+}
+.front,
+.back {
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transition: 0.6s;
+  -webkit-transform-style: preserve-3d;
+  -moz-transition: 0.6s;
+  -moz-transform-style: preserve-3d;
+  -o-transition: 0.6s;
+  -o-transform-style: preserve-3d;
+  -ms-transition: 0.6s;
+  -ms-transform-style: preserve-3d;
+  transition: 0.6s;
+  transform-style: preserve-3d;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.back {
+  -webkit-transform: rotateY(-180deg);
+  -moz-transform: rotateY(-180deg);
+  -o-transform: rotateY(-180deg);
+  -ms-transform: rotateY(-180deg);
+  transform: rotateY(-180deg);
+}
+.flip-container--clicked .back {
+  -webkit-transform: rotateY(0deg);
+  -moz-transform: rotateY(0deg);
+  -o-transform: rotateY(0deg);
+  -ms-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+}
+.flip-container--clicked .front {
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  -ms-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+.front {
+  z-index: 2;
+}
+</style>

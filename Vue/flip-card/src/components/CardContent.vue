@@ -4,7 +4,7 @@
       <h2 class="text-gray-800 text-3xl font-semibold mb-5">
         <slot></slot>
       </h2>
-      <p class="mt-2 text-gray-600 mb-2">
+      <p class="mx-2 my-2 text-gray-600">
         <slot name="text"></slot>
       </p>
     </div>

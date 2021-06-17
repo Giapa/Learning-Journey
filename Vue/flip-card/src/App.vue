@@ -1,13 +1,9 @@
 <template>
-  <div id="app" class="grid grid-cols-1 justify-items-center text-center gap-5">
-    <card v-for="card in cards" :key="card.id" class="mb-48"
-      ><template slot="front">
-        {{ card.front }}
-      </template>
-      <template slot="back">
-        {{ card.back }}
-      </template></card
-    >
+  <div id="app" class="grid grid-cols-1 justify-items-center text-center">
+    <card v-for="card in cards" :key="card.id" class="my-8"
+      ><template slot="front">{{ card.front }}</template>
+      <template slot="back">{{ card.back }}</template>
+    </card>
   </div>
 </template>
 
