@@ -4,15 +4,15 @@
     :class="[flipped ? 'flip-container--clicked' : '']"
     @click="flipped = !flipped"
   >
-    <div class="flipper w-80 h-full my-auto mx-5">
+    <div class="flipper w-80 h-full my-auto">
       <div class="front bg-white shadow-lg rounded-lg">
-        <card-content>
+        <card-content v-if="!flipped">
           Front Card
           <template slot="text"><slot name="front"></slot></template>
         </card-content>
       </div>
       <div class="back bg-white shadow-lg rounded-lg">
-        <card-content>
+        <card-content v-if="flipped">
           Back card
           <template slot="text"><slot name="back"></slot></template>
         </card-content>
@@ -67,7 +67,6 @@ export default {
   -ms-transform-style: preserve-3d;
   transition: 0.6s;
   transform-style: preserve-3d;
-  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
