@@ -1,5 +1,8 @@
 <template>
-  <div id="app" class="bg-gray-400 h-screen p-5">
+  <div
+    id="app"
+    class="bg-gray-400 h-screen p-5 items-center flex justify-center"
+  >
     <balance-modal :primary="true"></balance-modal>
   </div>
 </template>
