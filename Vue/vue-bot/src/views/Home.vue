@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="flex items-center flex-col">
     <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
